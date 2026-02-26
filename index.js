@@ -84,7 +84,7 @@ client.on("message", async (message) => {
             console.error('Error sending sticker:', error);
         }
     } else if (lowerText.startsWith('!pokemon')) {
-        const [, query = 'pikachu'] = text.split(/\s+/, 2);
+        const [, query = 'random'] = text.split(/\s+/, 2);
         let pokemonNameOrId = query.toLowerCase();
 
         try {
