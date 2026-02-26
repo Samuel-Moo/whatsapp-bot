@@ -125,23 +125,23 @@ client.on("message", async (message) => {
         } catch (error) {
             console.error('Error sending sticker:', error);
         }
-    } else if (lowerText.startsWith('!cipher')) {
+    } else if (lowerText.startsWith('!cypher')) {
         const [, word, shiftStr] = text.split(/\s+/, 3);
         const shift = parseInt(shiftStr, 10);
 
         if (!word || isNaN(shift)) {
-            await replyWithLog(message, 'Usage: !cipher <text> <shift>');
+            await replyWithLog(message, 'Usage: !cypher <text> <shift>');
             return;
         }
 
         const ciphered = caesarCipher(word, shift);
         await replyWithLog(message, ciphered);
-    } else if (lowerText.startsWith('!decipher')) {
+    } else if (lowerText.startsWith('!decypher')) {
         const [, word, shiftStr] = text.split(/\s+/, 3);
         const shift = parseInt(shiftStr, 10);
         
         if (!word || isNaN(shift)) {
-            await replyWithLog(message, 'Usage: !decipher <text> <shift>');
+            await replyWithLog(message, 'Usage: !decypher <text> <shift>');
             return;
         }
 
