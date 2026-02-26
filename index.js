@@ -5,6 +5,40 @@ const client = new Client({
     authStrategy: new LocalAuth()
 });
 
+function caesarCipher(text, shift) {
+    let cipher = '';
+
+    for (const character of text) {
+        if (/[a-zA-Z]/.test(character)) {
+            const shiftMod = shift % 26;
+            const base = character >= 'a' && character <= 'z' ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+            const shiftedChar = String.fromCharCode((character.charCodeAt(0) - base + shiftMod + 26) % 26 + base);
+            cipher += shiftedChar;
+        } else {
+            cipher += character;
+        }
+    }
+
+    return cipher;
+}
+
+function decipher(text, shift) {
+    let deciphered = '';
+
+    for (const character of text) {
+        if (/[a-zA-Z]/.test(character)) {
+            const shiftMod = shift % 26;
+            const base = character >= 'a' && character <= 'z' ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+            const shiftedChar = String.fromCharCode((character.charCodeAt(0) - base - shiftMod + 26) % 26 + base);
+            deciphered += shiftedChar;
+        } else {
+            deciphered += character;
+        }
+    }
+
+    return deciphered;
+}
+
 function logIncomingMessage(message) {
     console.log(`[IN] from=${message.from} body="${message.body}"`);
 }
@@ -49,7 +83,7 @@ client.on("message", async (message) => {
         } catch (error) {
             console.error('Error sending sticker:', error);
         }
-    } else if (lowerText.startsWith('pokemon')) {
+    } else if (lowerText.startsWith('!pokemon')) {
         const [, query = 'pikachu'] = text.split(/\s+/, 2);
         let pokemonNameOrId = query.toLowerCase();
 
@@ -91,7 +125,28 @@ client.on("message", async (message) => {
         } catch (error) {
             console.error('Error sending sticker:', error);
         }
-    }
+    } else if (lowerText.startsWith('!cipher')) {
+        const [, word, shiftStr] = text.split(/\s+/, 3);
+        const shift = parseInt(shiftStr, 10);
 
+        if (!word || isNaN(shift)) {
+            await replyWithLog(message, 'Usage: !cipher <text> <shift>');
+            return;
+        }
+
+        const ciphered = caesarCipher(word, shift);
+        await replyWithLog(message, ciphered);
+    } else if (lowerText.startsWith('!decipher')) {
+        const [, word, shiftStr] = text.split(/\s+/, 3);
+        const shift = parseInt(shiftStr, 10);
+        
+        if (!word || isNaN(shift)) {
+            await replyWithLog(message, 'Usage: !decipher <text> <shift>');
+            return;
+        }
+
+        const deciphered = decipher(word, shift);
+        await replyWithLog(message, deciphered);
+}
 }); 
 client.initialize();
