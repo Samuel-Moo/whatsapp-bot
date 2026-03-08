@@ -1,0 +1,21 @@
+{
+  "users": {
+    "214070095528028": {
+      "phoneNumber": "214070095528028",
+      "password": {
+        "salt": "e312f516d5cf830cbc6b625dabb35355",
+        "hash": "7f60e7ec8220ab8228e6f93a1da00d77a65adfbf065b0afca9939194aecbfb8cebc4ceeabd8b3ea4adb36012cf498850a8c85b3d08528d894f120403a8ded6a2",
+        "iterations": 120000,
+        "keyLength": 64,
+        "digest": "sha512"
+      },
+      "createdAt": "2026-03-08T23:07:55.106Z"
+    }
+  },
+  "sessions": {
+    "214070095528028": {
+      "loggedIn": true,
+      "loginAt": "2026-03-08T23:08:07.123Z"
+    }
+  }
+}
